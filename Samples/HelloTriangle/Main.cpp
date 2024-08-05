@@ -1,9 +1,9 @@
-#include "HelloTriangleApp/HelloTriangleApp.h"
+#include "HelloTriangle/HelloTriangle.h"
 #include <Core/Utils/Singleton.h>
 #include <Core/Platform/LogOutput.h>
 #include <Core/Logging/LogManager.h>
 
-int main()
+int main(int argc, char** argv)
 {
 	using namespace CGL::Core;
 
@@ -12,7 +12,7 @@ int main()
 	logManager.AttachOutput<FileLogOutput>("FileLogOutput", "HelloTriangleSampleLog.txt");
 
 	{
-		CGL::HelloTriangleApp app;
+		CGL::HelloTriangle app(argc, argv);
 		app.Run();
 	}
 

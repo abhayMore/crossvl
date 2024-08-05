@@ -4,7 +4,8 @@ namespace CGL
 {
 	CGL_DEFINE_LOG_CATEGORY(%PROJECT_NAME%);
 
-	%PROJECT_NAME%::%PROJECT_NAME%()
+	%PROJECT_NAME%::%PROJECT_NAME%(i32 argc, char** argv) 
+		: Super("[CGL] %PROJECT_NAME%", argc, argv)
 	{
 		CGL_LOG(%PROJECT_NAME%, Trace, "Created %PROJECT_NAME%");
 	}
@@ -24,7 +25,7 @@ namespace CGL
 		return true;
 	}
 
-	void %PROJECT_NAME%::OnUpdate()
+	void %PROJECT_NAME%::OnUpdate([[maybe_unused]] const SDL_Event& e)
 	{
 		// Update app here
 	}

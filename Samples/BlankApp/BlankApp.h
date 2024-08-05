@@ -12,12 +12,12 @@ namespace CGL
 		using Super = Core::Application;
 
 	public:
-		BlankApp();
+		BlankApp(i32 argc, char** argv);
 		~BlankApp();
 
 	private:
 		bool OnInit() override final;
-		void OnUpdate() override final;
+		void OnUpdate(const SDL_Event& e) override final;
 		void OnRender() override final;
 		void OnResize(u32 width, u32 height) override final;
 		void OnShutdown() override final;

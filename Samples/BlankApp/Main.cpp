@@ -3,16 +3,16 @@
 #include <Core/Platform/LogOutput.h>
 #include <Core/Logging/LogManager.h>
 
-int main()
+int main(int argc, char** argv)
 {
 	using namespace CGL::Core;
 
 	auto& logManager = Utils::Singleton<LogManager>::Get();
 	logManager.AttachOutput<ConsoleLogOutput>("ConsoleLogOutput", "CGL Log");
-	logManager.AttachOutput<FileLogOutput>("FileLogOutput", "BlankApp.txt");
+	logManager.AttachOutput<FileLogOutput>("FileLogOutput", "BlankAppSampleLog.txt");
 
 	{
-		CGL::BlankApp app;
+		CGL::BlankApp app(argc, argv);
 		app.Run();
 	}
 

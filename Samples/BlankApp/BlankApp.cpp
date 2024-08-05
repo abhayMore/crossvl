@@ -4,7 +4,8 @@ namespace CGL
 {
 	CGL_DEFINE_LOG_CATEGORY(BlankApp);
 
-	BlankApp::BlankApp()
+	BlankApp::BlankApp(i32 argc, char** argv)
+		: Super("[CGL] Blank App", argc, argv)
 	{
 		CGL_LOG(BlankApp, Trace, "Created Blank App");
 	}
@@ -24,7 +25,7 @@ namespace CGL
 		return true;
 	}
 
-	void BlankApp::OnUpdate()
+	void BlankApp::OnUpdate([[maybe_unused]] const SDL_Event& e)
 	{
 		// Update app here
 	}
