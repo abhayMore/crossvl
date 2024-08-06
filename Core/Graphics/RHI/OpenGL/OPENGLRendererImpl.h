@@ -23,5 +23,6 @@ namespace CGL::Graphics
         SDL_Window* gWindow;
         SDL_GLContext gContext;
         GLenum glewError;
+
     };
 }
