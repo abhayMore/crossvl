@@ -9,12 +9,10 @@ namespace CGL
 	{
 #if defined(CGL_RHI_DX11)
 		#include "HelloTriangleVS.hlsl.h"		
-#endif
-#if defined(CGL_RHI_OPENGL)
+#elif defined(CGL_RHI_OPENGL)
 		#include "HelloTriangleVS.vert.h"
-#endif
-#if defined(CGL_RHI_METAL)
-		#include "HelloTriangleVS.mtl.h"
+#elif defined(CGL_RHI_METAL)
+		#include "HelloTriangleVS.metal.h"
 #endif
 	};
 
@@ -22,12 +20,10 @@ namespace CGL
 	{
 #if defined(CGL_RHI_DX11)
 		#include "HelloTrianglePS.hlsl.h"		
-#endif
-#if defined(CGL_RHI_OPENGL)
+#elif defined(CGL_RHI_OPENGL)
 		#include "HelloTrianglePS.frag.h"
-#endif
-#if defined(CGL_RHI_METAL)
-		#include "HelloTrianglePS.mtl.h"
+#elif defined(CGL_RHI_METAL)
+		#include "HelloTrianglePS.metal.h"
 #endif
 	};
 

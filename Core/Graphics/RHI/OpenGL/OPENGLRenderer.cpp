@@ -32,7 +32,6 @@ namespace CGL::Graphics
     void Renderer::Constructor_OPENGL(SDL_Window* window)
     {
         this->m_impl = new OPENGLRendererImpl(window);
-
         CGL_LOG(Renderer, Info, "OpenGL Renderer Initialized");
     }
 

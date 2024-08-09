@@ -35,9 +35,7 @@ namespace CGL::Graphics
 
 #if defined(CGL_RHI_D3D)
 		static ShaderCompileResult Compile(const ShaderSource& shader, const CompileConfig& config, ComPtr<ID3DBlob>& outBlob);
-#endif
-
-#if defined(CGL_RHI_OPENGL)
+#elif defined(CGL_RHI_OPENGL)
 		static ShaderCompileResult Compile(const ShaderSource& shader, const CompileConfig& config, GLuint& outBlob);
 #endif
 	};
