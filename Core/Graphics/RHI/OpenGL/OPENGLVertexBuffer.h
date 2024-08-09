@@ -1,6 +1,7 @@
 #pragma once
 #include <Core/Graphics/Types.h>
 #include <GL/glew.h>
+
 namespace CGL::Graphics
 {
     class OPENGLVertexBuffer
@@ -9,8 +10,7 @@ namespace CGL::Graphics
 
     public:
         OPENGLVertexBuffer()
-        {
-        }
+        {}
         ~OPENGLVertexBuffer() = default;
 
     private:

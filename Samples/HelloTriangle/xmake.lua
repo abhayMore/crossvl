@@ -7,12 +7,12 @@ target("HelloTriangle")
 	set_kind("binary")
 	set_group("Samples")
 	
-	add_packages("libsdl")
+	add_packages("libsdl", "directxmath")
 
 	add_includedirs("..", "$(projectdir)")
-	add_files("**.cpp", "Assets/**.hlsl")
+	add_files("**.cpp", "Assets/OpenGL/**.vert", "Assets/OpenGL/**.frag")
 	add_headerfiles("**.h", { install = false })
-	add_rules("utils.bin2c", {extensions = {".hlsl"}})
+	add_rules("utils.bin2c", {extensions = {".vert", ".frag"}})
 
 	add_deps("VisualizerCore")
 	if has_config("rhi") then

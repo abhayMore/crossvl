@@ -8,14 +8,11 @@ namespace CGL::Graphics
 		friend class Renderer;
 
 	public:
-		OPENGLIndexBuffer(GLuint* buffer)
-			: m_buffer(nullptr)
-		{
-			m_buffer = buffer;
-		}
+		OPENGLIndexBuffer()
+		{}
 		~OPENGLIndexBuffer() = default;
 
 	private:
-		GLuint* m_buffer;
+		GLuint EBO;
 	};
-}
+} // namespace CGL::Graphics

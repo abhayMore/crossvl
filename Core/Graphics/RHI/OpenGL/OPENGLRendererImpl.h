@@ -1,8 +1,6 @@
 #pragma once
-#include <Core/Graphics/Types.h>
-
 #include <GL/glew.h>
-#include <SDL2/SDL.h>
+#include <SDL2/SDL_video.h>
 #include "SDL2/SDL_opengl.h"
 
 #include "Core/Logging/Log.h"
@@ -17,12 +15,14 @@ namespace CGL::Graphics
         explicit OPENGLRendererImpl(SDL_Window* window);
         ~OPENGLRendererImpl();
         
+        void SetPrimitive(GLenum primitive);
+        inline GLenum GetPrimitive() { return m_primitive;}
+        
         void SwapWindow();
-
     private:
         SDL_Window* gWindow;
         SDL_GLContext gContext;
-        GLenum glewError;
-
+        GLenum m_glewError;
+        GLenum m_primitive;
     };
 }

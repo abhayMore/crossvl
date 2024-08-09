@@ -1,5 +1,4 @@
 #pragma once
-
 #include <GL/glew.h>
 
 namespace CGL::Graphics
@@ -10,9 +9,9 @@ namespace CGL::Graphics
 
 	public:
 		OPENGLPixelShader()
-		{};
+		{}
 
 	private:
 		GLuint  fragmentShader;
 	};
-}
+} // namespace CGL::Graphics

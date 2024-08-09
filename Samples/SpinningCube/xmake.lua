@@ -7,7 +7,7 @@ target("SpinningCube")
 	set_kind("binary")
 	set_group("Samples")
 	
-	add_packages("libsdl")
+	add_packages("libsdl", "directxmath")
 
 	add_includedirs("..", "$(projectdir)")
 	add_files("**.cpp", "Assets/**.hlsl")

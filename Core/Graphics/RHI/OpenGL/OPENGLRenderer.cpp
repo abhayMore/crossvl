@@ -3,7 +3,32 @@
 
 namespace CGL::Graphics
 {
-    #ifdef CGL_RHI_OPENGL
+#if defined(CGL_RHI_OPENGL)
+
+    namespace Mapping
+	{
+		static constexpr std::array PrimitiveTopology =
+		{
+			GL_TRIANGLES,
+            GL_LINES,
+            GL_POINTS,
+            GL_TRIANGLE_STRIP,
+            GL_LINE_STRIP,
+            GL_TRIANGLE_FAN
+		};
+
+		static constexpr std::array BufferUsage =
+		{
+			GL_STATIC_DRAW,
+            GL_DYNAMIC_DRAW,
+            GL_STREAM_DRAW,
+            GL_STREAM_READ            
+		};
+
+		static_assert(PrimitiveTopology.size() == size_t(PrimitiveType::COUNT));
+		static_assert(BufferUsage.size() == size_t(BufferUsage::COUNT));
+	}
+
     void Renderer::Constructor_OPENGL(SDL_Window* window)
     {
         this->m_impl = new OPENGLRendererImpl(window);
@@ -21,7 +46,6 @@ namespace CGL::Graphics
 
     OPENGLRendererImpl* Renderer::GetImpl() const
     {
-        assert(GetAPI() == RHIType::OpenGL);
         return static_cast<OPENGLRendererImpl*>(m_impl);
     }
 
@@ -44,6 +68,7 @@ namespace CGL::Graphics
     void Renderer::SetPrimitiveTopology_OPENGL(PrimitiveType topology)
     {
         assert(GetImpl());
+        GetImpl()->SetPrimitive(Mapping::PrimitiveTopology[size_t(topology)]);
     }
 
     void Renderer::SetVertexShader_OPENGL(const VertexShader& shader)
@@ -59,7 +84,7 @@ namespace CGL::Graphics
     void Renderer::SetVertexBuffer_OPENGL(const VertexBuffer& buffer)
     {
         assert(GetImpl());
-        
+        glBindVertexArray(buffer.VAO);
     }
 
     void Renderer::SetIndexBuffer_OPENGL(const IndexBuffer& buffer)
@@ -119,15 +144,16 @@ namespace CGL::Graphics
         glGetProgramiv(material->m_id, GL_LINK_STATUS, &success);
         if (!success)
         {
-            glGetProgramInfoLog(material->m_id, 512, NULL, infoLog);
-            CGL_LOG(Renderer, Error, "Failed to link shaders");
+            glGetProgramInfoLog(material->m_id, 512, nullptr, infoLog);
+            CGL_LOG(Renderer, Error, "Failed to link shaders : " + std::string(infoLog));
         }
         else
         {
+			material->m_vs->State = ShaderState::Compiled;            
+			material->m_ps->State = ShaderState::Compiled;
             glDeleteShader(material->GetVertexShader()->Shader.vertexShader);
             glDeleteShader(material->GetPixelShader()->Shader.fragmentShader);
         }
-
     }
 
     VertexBuffer Renderer::CreateVertexBuffer_OPENGL(const BufferSource& source)
@@ -141,26 +167,34 @@ namespace CGL::Graphics
         glBindVertexArray(vb.VAO);
 
         glBindBuffer(GL_ARRAY_BUFFER, vb.VBO);
-        glBufferData(GL_ARRAY_BUFFER, source.TypeSize, source.Data, GL_STATIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, source.TypeSize * source.Count, source.Data, GL_STATIC_DRAW);
 
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+        // Position Attribute
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, source.TypeSize, (void*)0);
         glEnableVertexAttribArray(0);
+
+        // Color Attribute
+        glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, source.TypeSize, (void*)(sizeof(SM::Vector3)));
+        glEnableVertexAttribArray(1);
 
         glBindBuffer(GL_ARRAY_BUFFER, 0);
         glBindVertexArray(0);
-
+        
         return vb;
     }
 
-    IndexBuffer Renderer::CreateIndexBuffer_OPENGL(const BufferSource& source)
-    {
+    IndexBuffer Renderer::CreateIndexBuffer_OPENGL(const BufferSource& source){}
 
-    }
+	void Renderer::CreateConstantBuffer_OPENGL(const BufferSource& source, GLuint& buffer){}
+	
+    void Renderer::SetConstantBufferData_OPENGL(GLuint* buffer, const void* data, size_t size){}
+
+ 	void Renderer::SetConstantBuffer_OPENGL(ShaderType type, u32 startSlot, const GLuint& buffer){}
 
     void Renderer::Draw_OPENGL(u32 vertexCount, u32 startVertex)
     {
         assert(GetImpl());
-        
+        glDrawArrays(GetImpl()->GetPrimitive(), startVertex, vertexCount);
     }
 
     void Renderer::DrawIndexed_OPENGL(u32 indexCount, u32 startIndex, u32 baseVertex)
@@ -168,6 +202,5 @@ namespace CGL::Graphics
         assert(GetImpl());
     }
 
-
-    #endif // CGL_RHI_OPENGL
+#endif // CGL_RHI_OPENGL
 }

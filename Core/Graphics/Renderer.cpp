@@ -1,6 +1,6 @@
 #include "Renderer.h"
 #include "Core/Graphics/Types.h"
-#include <SDL2/SDL.h>
+#include <SDL2/SDL_video.h>
 
 namespace CGL::Graphics
 {
@@ -131,6 +131,10 @@ namespace CGL::Graphics
 
 		SetVertexShader(vs->Shader);
 		SetPixelShader(ps->Shader);
+
+#if defined(CGL_RHI_OPENGL)
+		glUseProgram(material.GetMaterialID());
+#endif
 	}
 
 	void Renderer::SetVertexBuffer(const VertexBuffer& buffer)
@@ -232,7 +236,7 @@ namespace CGL::Graphics
 			material->m_ps->State = ShaderState::Compiled;
 		}
 
-#if defined(CGL_RHI_DX11)
+#if defined(CGL_RHI_OPENGL)
 		LinkShaders_OPENGL(material);
 #endif
 		// TODO: Add other shader types

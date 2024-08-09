@@ -6,12 +6,28 @@ namespace CGL
 
 	static constexpr byte s_vertexShader[] =
 	{
-		#include "SpinningCubeVS.hlsl.h"
+#if defined(CGL_RHI_DX11)
+		#include "SpinningCubeVS.hlsl.h"		
+#endif
+#if defined(CGL_RHI_OPENGL)
+		#include "SpinningCubeVS.vert.h"
+#endif
+#if defined(CGL_RHI_METAL)
+		#include "SpinningCubeVS.mtl.h"
+#endif		
 	};
 
 	static constexpr byte s_pixelShader[] =
 	{
-		#include "SpinningCubePS.hlsl.h"
+#if defined(CGL_RHI_DX11)
+		#include "SpinningCubePS.hlsl.h"		
+#endif
+#if defined(CGL_RHI_OPENGL)
+		#include "SpinningCubePS.frag.h"
+#endif
+#if defined(CGL_RHI_METAL)
+		#include "SpinningCubePS.mtl.h"
+#endif
 	};
 
 	SpinningCube::SpinningCube(i32 argc, char** argv) 

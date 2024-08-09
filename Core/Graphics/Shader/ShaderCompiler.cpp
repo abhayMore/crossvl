@@ -130,14 +130,18 @@ namespace CGL::Graphics
 				std::unreachable();
 				break;
 		}
-		auto src = shader.SourceData.c_str();
-		glShaderSource(outShader, 1, &src, nullptr);
 
+		auto src = shader.SourceData.c_str();
+
+		glShaderSource(outShader, 1, &src, nullptr);
+		glCompileShader(outShader);
+		
 		GLint success;
 		glGetShaderiv(outShader, GL_COMPILE_STATUS, &success);
 		if (!success) {
 			char infoLog[512];
 			glGetShaderInfoLog(outShader, 512, nullptr, infoLog);
+		
 			result.Message = std::string(infoLog);
 			result.Status = ShaderCompileStatus::Failure;
 			return result;
