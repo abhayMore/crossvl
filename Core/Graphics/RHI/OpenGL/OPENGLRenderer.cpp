@@ -1,34 +1,34 @@
-#include <Core/Graphics/Renderer.h>
 #include <Core/Graphics/RHI/OpenGL/OPENGLRendererImpl.h>
+#include <Core/Graphics/Renderer.h>
 
 namespace CGL::Graphics
 {
 #if defined(CGL_RHI_OPENGL)
 
     namespace Mapping
-	{
-		static constexpr std::array PrimitiveTopology =
-		{
-			GL_TRIANGLES,
+    {
+        static constexpr std::array PrimitiveTopology =
+        {
+            GL_TRIANGLES,
             GL_LINES,
             GL_POINTS,
             GL_TRIANGLE_STRIP,
             GL_LINE_STRIP,
             GL_TRIANGLE_FAN
-		};
+        };
 
-		static constexpr std::array BufferUsage =
-		{
-			GL_STATIC_DRAW,
+        static constexpr std::array BufferUsage =
+        {
+            GL_STATIC_DRAW,
             GL_DYNAMIC_DRAW,
             GL_STREAM_DRAW,
             GL_STREAM_READ            
-		};
+        };
 
-		static_assert(PrimitiveTopology.size() == size_t(PrimitiveType::COUNT));
-		static_assert(BufferUsage.size() == size_t(BufferUsage::COUNT));
-	}
-
+        static_assert(PrimitiveTopology.size() == size_t(PrimitiveType::COUNT));
+        static_assert(BufferUsage.size() == size_t(BufferUsage::COUNT));
+    }
+    
     void Renderer::Constructor_OPENGL(SDL_Window* window)
     {
         this->m_impl = new OPENGLRendererImpl(window);
@@ -51,18 +51,18 @@ namespace CGL::Graphics
     void Renderer::BeginFrame_OPENGL()
     {
         glClearDepth(1.0);
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);        
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     }
-    
+
     void Renderer::EndFrame_OPENGL()
-    { 
+    {
         GetImpl()->SwapWindow();
     }
 
     void Renderer::Resize_OPENGL(u32 width, u32 height)
-	{
-	    glViewport(0, 0, width, height);
-	}
+    {
+        glViewport(0, 0, width, height);
+    }
 
     void Renderer::SetPrimitiveTopology_OPENGL(PrimitiveType topology)
     {
@@ -148,8 +148,8 @@ namespace CGL::Graphics
         }
         else
         {
-			material->m_vs->State = ShaderState::Compiled;            
-			material->m_ps->State = ShaderState::Compiled;
+			      material->m_vs->State = ShaderState::Compiled;            
+			      material->m_ps->State = ShaderState::Compiled;
             glDeleteShader(material->GetVertexShader()->Shader.vertexShader);
             glDeleteShader(material->GetPixelShader()->Shader.fragmentShader);
         }
@@ -184,11 +184,11 @@ namespace CGL::Graphics
 
     IndexBuffer Renderer::CreateIndexBuffer_OPENGL(const BufferSource& source){}
 
-	void Renderer::CreateConstantBuffer_OPENGL(const BufferSource& source, GLuint& buffer){}
+	  void Renderer::CreateConstantBuffer_OPENGL(const BufferSource& source, GLuint& buffer){}
 	
     void Renderer::SetConstantBufferData_OPENGL(GLuint* buffer, const void* data, size_t size){}
 
- 	void Renderer::SetConstantBuffer_OPENGL(ShaderType type, u32 startSlot, const GLuint& buffer){}
+ 	  void Renderer::SetConstantBuffer_OPENGL(ShaderType type, u32 startSlot, const GLuint& buffer){}
 
     void Renderer::Draw_OPENGL(u32 vertexCount, u32 startVertex)
     {

@@ -7,7 +7,7 @@ std::pair<int, int> GetWindowSize(SDL_Window* window) {
 }
 
 namespace CGL::Graphics
-{   
+{
     CGL_DEFINE_LOG_CATEGORY(OPENGLRendererImpl);
 
     OPENGLRendererImpl::OPENGLRendererImpl(SDL_Window* window)
@@ -21,7 +21,6 @@ namespace CGL::Graphics
         gContext = SDL_GL_CreateContext(gWindow);
 
         glewExperimental = GL_TRUE;
-
         m_glewError = glewInit();
         
         glClearColor(0.0f, 1.0f, 1.0f, 1.0f);
@@ -44,4 +43,4 @@ namespace CGL::Graphics
     {
         SDL_GL_SwapWindow(gWindow);
     }
-}
+}  // namespace CGL::Graphics

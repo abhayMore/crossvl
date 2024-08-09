@@ -2,7 +2,6 @@
 #include <GL/glew.h>
 #include <SDL2/SDL_video.h>
 #include "SDL2/SDL_opengl.h"
-
 #include "Core/Logging/Log.h"
 
 namespace CGL::Graphics
@@ -14,7 +13,7 @@ namespace CGL::Graphics
     public:
         explicit OPENGLRendererImpl(SDL_Window* window);
         ~OPENGLRendererImpl();
-        
+      
         void SetPrimitive(GLenum primitive);
         inline GLenum GetPrimitive() { return m_primitive;}
         
@@ -25,4 +24,4 @@ namespace CGL::Graphics
         GLenum m_glewError;
         GLenum m_primitive;
     };
-}
+}  // namespace CGL::Graphics
