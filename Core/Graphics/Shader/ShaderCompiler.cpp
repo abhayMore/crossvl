@@ -101,7 +101,7 @@ namespace CGL::Graphics
         }
     }
 #elif defined(CGL_RHI_OPENGL)
-    ShaderCompileResult ShaderCompiler::Compile(const ShaderSource& shader, const CompileConfig& config, GLuint& outShader)
+    ShaderCompileResult ShaderCompiler::Compile(const ShaderSource& shader, [[maybe_unused]] const CompileConfig& config, GLuint& outShader)
     {
         ShaderCompileResult result{};
 

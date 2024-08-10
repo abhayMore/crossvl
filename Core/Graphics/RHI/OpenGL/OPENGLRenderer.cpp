@@ -13,8 +13,7 @@ namespace CGL::Graphics
             GL_LINES,
             GL_POINTS,
             GL_TRIANGLE_STRIP,
-            GL_LINE_STRIP,
-            GL_TRIANGLE_FAN
+            GL_LINE_STRIP
         };
 
         static constexpr std::array BufferUsage =
@@ -70,12 +69,12 @@ namespace CGL::Graphics
         GetImpl()->SetPrimitive(Mapping::PrimitiveTopology[size_t(topology)]);
     }
 
-    void Renderer::SetVertexShader_OPENGL(const VertexShader& shader)
+    void Renderer::SetVertexShader_OPENGL([[maybe_unused]] const VertexShader& shader)
     {
         assert(GetImpl());
     }
 
-    void Renderer::SetPixelShader_OPENGL(const PixelShader& shader)
+    void Renderer::SetPixelShader_OPENGL( [[maybe_unused]] const PixelShader& shader)
     {
         assert(GetImpl() );
     }
@@ -86,7 +85,7 @@ namespace CGL::Graphics
         glBindVertexArray(buffer.VAO);
     }
 
-    void Renderer::SetIndexBuffer_OPENGL(const IndexBuffer& buffer)
+    void Renderer::SetIndexBuffer_OPENGL([[maybe_unused]] const IndexBuffer& buffer)
     {
         assert(GetImpl());
     }
@@ -182,13 +181,16 @@ namespace CGL::Graphics
         return vb;
     }
 
-    IndexBuffer Renderer::CreateIndexBuffer_OPENGL(const BufferSource& source){}
+    IndexBuffer Renderer::CreateIndexBuffer_OPENGL( [[maybe_unused]] const BufferSource& source)
+    {
+        return IndexBuffer();
+    }
 
-	  void Renderer::CreateConstantBuffer_OPENGL(const BufferSource& source, GLuint& buffer){}
+	void Renderer::CreateConstantBuffer_OPENGL([[maybe_unused]] const BufferSource& source, [[maybe_unused]] GLuint& buffer){}
 	
-    void Renderer::SetConstantBufferData_OPENGL(GLuint* buffer, const void* data, size_t size){}
+    void Renderer::SetConstantBufferData_OPENGL([[maybe_unused]] GLuint* buffer, [[maybe_unused]] const void* data, [[maybe_unused]] size_t size){}
 
- 	  void Renderer::SetConstantBuffer_OPENGL(ShaderType type, u32 startSlot, const GLuint& buffer){}
+ 	void Renderer::SetConstantBuffer_OPENGL([[maybe_unused]] ShaderType type, [[maybe_unused]] u32 startSlot, [[maybe_unused]] const GLuint& buffer){}
 
     void Renderer::Draw_OPENGL(u32 vertexCount, u32 startVertex)
     {
@@ -196,7 +198,7 @@ namespace CGL::Graphics
         glDrawArrays(GetImpl()->GetPrimitive(), startVertex, vertexCount);
     }
 
-    void Renderer::DrawIndexed_OPENGL(u32 indexCount, u32 startIndex, u32 baseVertex)
+    void Renderer::DrawIndexed_OPENGL([[maybe_unused]] u32 indexCount, [[maybe_unused]] u32 startIndex, [[maybe_unused]] u32 baseVertex)
     {
         assert(GetImpl());
     }
