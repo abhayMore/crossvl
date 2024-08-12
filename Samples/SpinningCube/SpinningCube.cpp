@@ -11,7 +11,7 @@ namespace CGL
   #elif defined(CGL_RHI_OPENGL)
         #include "SpinningCubeVS.vert.h"
   #elif defined(CGL_RHI_METAL)
-        #include "SpinningCubeVS.mtl.h"
+        #include "SpinningCubeVS.metal.h"
   #endif		
     };
 
@@ -22,7 +22,7 @@ namespace CGL
   #elif defined(CGL_RHI_OPENGL)
         #include "SpinningCubePS.frag.h"
   #elif defined(CGL_RHI_METAL)
-        #include "SpinningCubePS.mtl.h"
+        #include "SpinningCubePS.metal.h"
   #endif
     };
 

@@ -1,11 +1,5 @@
 #include "OPENGLRendererImpl.h"
 
-std::pair<int, int> GetWindowSize(SDL_Window* window) {
-    int width, height;
-    SDL_GetWindowSize(window, &width, &height);
-    return std::make_pair(width, height);
-}
-
 namespace CGL::Graphics
 {
     CGL_DEFINE_LOG_CATEGORY(OPENGLRendererImpl);
@@ -26,7 +20,6 @@ namespace CGL::Graphics
         
         glClearColor(0.0f, 1.0f, 1.0f, 1.0f);
         SDL_GL_SetSwapInterval(1);        
-
 
         SDL_GetWindowSize(window, &m_width, &m_height);
         glViewport(0, 0, m_width, m_height);

@@ -1,8 +1,6 @@
 #include <Core/Graphics/RHI/OpenGL/OPENGLRendererImpl.h>
 #include <Core/Graphics/Renderer.h>
 
-#include <cstddef>
-
 namespace CGL::Graphics
 {
 #if defined(CGL_RHI_OPENGL)
@@ -73,11 +71,17 @@ namespace CGL::Graphics
 
     void Renderer::SetVertexShader_OPENGL([[maybe_unused]] const VertexShader& shader)
     {
+        // This function is currently empty because shader creation and compilation are handled
+        // by separate functions. The SetVertexShader function will be implemented to switch to 
+        // an active vertex shader for each frame as needed.
         assert(GetImpl());
     }
 
     void Renderer::SetPixelShader_OPENGL( [[maybe_unused]] const PixelShader& shader)
     {
+        // This function is currently empty because shader creation and compilation are handled
+        // by separate functions. The SetPixelShader function will be implemented to switch to 
+        // an active pixel shader for each frame as needed.
         assert(GetImpl() );
     }
 
@@ -89,6 +93,8 @@ namespace CGL::Graphics
 
     void Renderer::SetIndexBuffer_OPENGL([[maybe_unused]] const IndexBuffer& buffer)
     {
+        // This function is currently empty. The implementation will involve binding the index buffer
+        // object. As more Samples are implemented this function will be implemented asap.
         assert(GetImpl());
     }
 
@@ -149,8 +155,8 @@ namespace CGL::Graphics
         }
         else
         {
-			      material->m_vs->State = ShaderState::Compiled;            
-			      material->m_ps->State = ShaderState::Compiled;
+			material->m_vs->State = ShaderState::Compiled;            
+			material->m_ps->State = ShaderState::Compiled;
             glDeleteShader(material->GetVertexShader()->Shader.VertexShader);
             glDeleteShader(material->GetPixelShader()->Shader.FragmentShader);
         }
