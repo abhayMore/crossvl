@@ -62,32 +62,32 @@ namespace CGL::Core
                         break;
                     }
                 }
-          }
+            }
 
-          OnUpdate(e);
+            OnUpdate(e);
 
-          // Call begin and end frame before calling render itself
-          m_renderer->BeginFrame();
-          OnRender();
-          m_renderer->EndFrame();
+            // Call begin and end frame before calling render itself
+            m_renderer->BeginFrame();
+            OnRender();
+            m_renderer->EndFrame();
 
-          // Check for test mode and elapsed time
-          if (g_isTestMode)
-          {
-              auto currentTime = std::chrono::steady_clock::now();
-              auto elapsedTime = std::chrono::duration_cast<std::chrono::seconds>(currentTime - startTime).count();
-              if (elapsedTime >= 5)  // Run for 5 Seconds
-              {
-                  CGL_LOG(CoreApp, Info, "Test run completed after 5 seconds. Shutting Down...");
-                  m_isRunning = false;
-              }
-          }
+            // Check for test mode and elapsed time
+            if (g_isTestMode)
+            {
+                auto currentTime = std::chrono::steady_clock::now();
+                auto elapsedTime = std::chrono::duration_cast<std::chrono::seconds>(currentTime - startTime).count();
+                if (elapsedTime >= 5)  // Run for 5 Seconds
+                {
+                    CGL_LOG(CoreApp, Info, "Test run completed after 5 seconds. Shutting Down...");
+                    m_isRunning = false;
+                }
+            }
         }
         OnShutdown();
     }
 
-	  bool Application::OnInit()
-	  {
+	bool Application::OnInit()
+    {
 		// Create SDL window
         u32 flags = SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI;
 #if defined(CGL_RHI_OPENGL)

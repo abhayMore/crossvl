@@ -34,9 +34,9 @@ namespace CGL::Graphics
         static void ReportResult(const ShaderCompileResult& result, const std::string& source);
 
 #if defined(CGL_RHI_D3D)
-		    static ShaderCompileResult Compile(const ShaderSource& shader, const CompileConfig& config, ComPtr<ID3DBlob>& outBlob);
+		static ShaderCompileResult Compile(const ShaderSource& shader, const CompileConfig& config, ComPtr<ID3DBlob>& outBlob);
 #elif defined(CGL_RHI_OPENGL)
-		    static ShaderCompileResult Compile(const ShaderSource& shader, const CompileConfig& config, GLuint& outBlob);
+		static ShaderCompileResult Compile(const ShaderSource& shader, const CompileConfig& config, GLuint& outBlob);
 #endif
     };
 }  // namespace CGL::Graphics
