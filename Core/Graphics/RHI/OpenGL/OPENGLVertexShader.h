@@ -3,15 +3,8 @@
 
 namespace CGL::Graphics
 {
-    class OPENGLVertexShader
+    struct OPENGLVertexShader
     {
-        friend class Renderer;
-
-    public:
-        OPENGLVertexShader()
-        {}
-
-    private:
-        GLuint vertexShader;
+        GLuint VertexShader;
     };
 } // namespace CGL::Graphics

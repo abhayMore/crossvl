@@ -19,8 +19,11 @@ namespace CGL::Graphics
         
         void SwapWindow();
     private:
-        SDL_Window* gWindow;
-        SDL_GLContext gContext;
+        SDL_Window* m_gWindow;
+        SDL_GLContext m_gContext;
+        i32 m_width;
+        i32 m_height;
+
         GLenum m_glewError;
         GLenum m_primitive;
     };

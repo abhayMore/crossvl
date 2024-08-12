@@ -1,5 +1,5 @@
-#include <SDL2/SDL.h>
 #include "Application.h"
+#include <SDL2/SDL.h>
 #include <chrono>
 
 namespace CGL::Core
@@ -89,13 +89,12 @@ namespace CGL::Core
 	  bool Application::OnInit()
 	  {
 		// Create SDL window
-		    u32 flags = SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI;
+        u32 flags = SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI;
 #if defined(CGL_RHI_OPENGL)
         flags |= SDL_WINDOW_OPENGL;
 #elif defined(CGL_RHI_VULKAN)
         flags |= SDL_WINDOW_VULKAN;
 #elif defined(CGL_RHI_METAL)
-
         flags |= SDL_WINDOW_METAL;
 #endif
 

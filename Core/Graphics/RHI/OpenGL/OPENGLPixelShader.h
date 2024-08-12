@@ -3,15 +3,8 @@
 
 namespace CGL::Graphics
 {
-	class OPENGLPixelShader
+	struct OPENGLPixelShader
 	{
-		friend class Renderer;
-
-	public:
-		OPENGLPixelShader()
-		{}
-
-	private:
-		GLuint  fragmentShader;
+		GLuint FragmentShader;
 	};
 } // namespace CGL::Graphics

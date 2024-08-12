@@ -1,13 +1,15 @@
 #include <Core/Graphics/RHI/OpenGL/OPENGLRendererImpl.h>
 #include <Core/Graphics/Renderer.h>
 
+#include <cstddef>
+
 namespace CGL::Graphics
 {
 #if defined(CGL_RHI_OPENGL)
 
     namespace Mapping
     {
-        static constexpr std::array PrimitiveTopology =
+        static constexpr std::array<GLenum, 5> PrimitiveTopology =
         {
             GL_TRIANGLES,
             GL_LINES,
@@ -16,7 +18,7 @@ namespace CGL::Graphics
             GL_LINE_STRIP
         };
 
-        static constexpr std::array BufferUsage =
+        static constexpr std::array<GLenum, 4> BufferUsage =
         {
             GL_STATIC_DRAW,
             GL_DYNAMIC_DRAW,
@@ -101,10 +103,10 @@ namespace CGL::Graphics
         cfg.Optimize = false;
 #endif
 
-        ShaderCompileResult result = ShaderCompiler::Compile(source, cfg, outShader->vertexShader);
+        ShaderCompileResult result = ShaderCompiler::Compile(source, cfg, outShader->VertexShader);
         if (result.Status != ShaderCompileStatus::Failure)
         {
-            assert(outShader->vertexShader);
+            assert(outShader->VertexShader);
         }
 
         return result;
@@ -121,10 +123,10 @@ namespace CGL::Graphics
         cfg.Optimize = false;
 #endif
 
-        ShaderCompileResult result = ShaderCompiler::Compile(source, cfg, outShader->fragmentShader);
+        ShaderCompileResult result = ShaderCompiler::Compile(source, cfg, outShader->FragmentShader);
         if (result.Status != ShaderCompileStatus::Failure)
         {
-            assert(outShader->fragmentShader);
+            assert(outShader->FragmentShader);
         }
 
         return result;
@@ -133,8 +135,8 @@ namespace CGL::Graphics
     void Renderer::LinkShaders_OPENGL(Material* material)
     {
         material->m_id = glCreateProgram();
-        glAttachShader(material->m_id, material->GetVertexShader()->Shader.vertexShader);
-        glAttachShader(material->m_id, material->GetPixelShader()->Shader.fragmentShader);
+        glAttachShader(material->m_id, material->GetVertexShader()->Shader.VertexShader);
+        glAttachShader(material->m_id, material->GetPixelShader()->Shader.FragmentShader);
         glLinkProgram(material->m_id);
 
         GLint success;
@@ -149,8 +151,8 @@ namespace CGL::Graphics
         {
 			      material->m_vs->State = ShaderState::Compiled;            
 			      material->m_ps->State = ShaderState::Compiled;
-            glDeleteShader(material->GetVertexShader()->Shader.vertexShader);
-            glDeleteShader(material->GetPixelShader()->Shader.fragmentShader);
+            glDeleteShader(material->GetVertexShader()->Shader.VertexShader);
+            glDeleteShader(material->GetPixelShader()->Shader.FragmentShader);
         }
     }
 
@@ -160,30 +162,40 @@ namespace CGL::Graphics
         assert(GetImpl());
 
         VertexBuffer vb;
+        vb.Stride = source.TypeSize * source.Count;
         glGenVertexArrays(1, &vb.VAO);
         glGenBuffers(1, &vb.VBO);
         glBindVertexArray(vb.VAO);
 
         glBindBuffer(GL_ARRAY_BUFFER, vb.VBO);
-        glBufferData(GL_ARRAY_BUFFER, source.TypeSize * source.Count, source.Data, GL_STATIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, vb.Stride, source.Data, Mapping::BufferUsage[size_t(source.Usage)]);
 
         // Position Attribute
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, source.TypeSize, (void*)0);
+        glVertexAttribPointer(0, sizeof(VertexTypes::PositionColor::Position) / sizeof(float), GL_FLOAT, GL_FALSE, source.TypeSize, (void*)offsetof(Graphics::VertexTypes::PositionColor,Graphics::VertexTypes::PositionColor::Position));
         glEnableVertexAttribArray(0);
 
         // Color Attribute
-        glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, source.TypeSize, (void*)(sizeof(SM::Vector3)));
+        glVertexAttribPointer(1, sizeof(VertexTypes::PositionColor::Color)/sizeof(float), GL_FLOAT, GL_FALSE, source.TypeSize, (void*)offsetof(Graphics::VertexTypes::PositionColor, Graphics::VertexTypes::PositionColor::Color));
         glEnableVertexAttribArray(1);
 
         glBindBuffer(GL_ARRAY_BUFFER, 0);
-        glBindVertexArray(0);
-        
+        glBindVertexArray(0);       
+
         return vb;
     }
 
     IndexBuffer Renderer::CreateIndexBuffer_OPENGL( [[maybe_unused]] const BufferSource& source)
     {
-        return IndexBuffer();
+        assert(source.Type == BufferType::Index);
+        assert(GetImpl());
+
+        IndexBuffer ib;
+        ib.Stride = source.TypeSize * source.Count;
+        glGenBuffers(1, &ib.EBO);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ib.EBO);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, ib.Stride, source.Data, Mapping::BufferUsage[size_t(source.Usage)]);
+
+        return ib;
     }
 
 	void Renderer::CreateConstantBuffer_OPENGL([[maybe_unused]] const BufferSource& source, [[maybe_unused]] GLuint& buffer){}
@@ -201,6 +213,7 @@ namespace CGL::Graphics
     void Renderer::DrawIndexed_OPENGL([[maybe_unused]] u32 indexCount, [[maybe_unused]] u32 startIndex, [[maybe_unused]] u32 baseVertex)
     {
         assert(GetImpl());
+        glDrawElementsBaseVertex(GetImpl()->GetPrimitive(), indexCount, GL_UNSIGNED_INT, (void*)(startIndex * sizeof(GLuint)), baseVertex);
     }
 
 #endif // CGL_RHI_OPENGL

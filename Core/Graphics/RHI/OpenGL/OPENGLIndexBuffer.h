@@ -3,16 +3,9 @@
 
 namespace CGL::Graphics
 {
-	class OPENGLIndexBuffer
+	struct OPENGLIndexBuffer
 	{
-		friend class Renderer;
-
-	public:
-		OPENGLIndexBuffer()
-		{}
-		~OPENGLIndexBuffer() = default;
-
-	private:
+		u32 Stride;
 		GLuint EBO;
 	};
 } // namespace CGL::Graphics
