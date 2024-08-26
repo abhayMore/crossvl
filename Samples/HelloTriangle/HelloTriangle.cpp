@@ -89,6 +89,7 @@ namespace CGL
 		vbs.Type       = Graphics::BufferType::Vertex;
 		vbs.TypeSize   = sizeof(decltype(vertices)::value_type);
 		vbs.Count      = u32(vertices.size());
+		vbs.VertexType = typeid(decltype(vertices)::value_type);
 		m_vertexBuffer = GetRenderer()->CreateVertexBuffer(vbs);
 
 		CGL_LOG(HelloTriangle, Info, "Initialized HelloTriangle App");

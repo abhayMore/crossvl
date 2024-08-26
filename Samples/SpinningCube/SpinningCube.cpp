@@ -115,6 +115,7 @@ namespace CGL
 		vbs.Type       = Graphics::BufferType::Vertex;
 		vbs.TypeSize   = sizeof(decltype(vertices)::value_type);
 		vbs.Count      = u32(vertices.size());
+		vbs.VertexType = typeid(decltype(vertices)::value_type);
 		m_vertexBuffer = GetRenderer()->CreateVertexBuffer(vbs);
 
 		// Define cube indices
@@ -167,8 +168,8 @@ namespace CGL
 		FrameData data
 		{
 			.World      = SM::Matrix::CreateRotationY(time),
-			.View       = m_camera.GetViewMatrix().Transpose(),
-			.Projection = m_camera.GetProjectionMatrix().Transpose()
+			.View       = m_camera.GetViewMatrix().Transpose().Transpose(),
+			.Projection = m_camera.GetProjectionMatrix().Transpose().Transpose()
 		};
 
 		GetRenderer()->SetConstantBufferData(m_constantBuffer, data);
