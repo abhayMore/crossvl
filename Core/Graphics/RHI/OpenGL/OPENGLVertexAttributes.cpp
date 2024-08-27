@@ -12,7 +12,7 @@ namespace CGL::Graphics
             GL_FLOAT,
             GL_FALSE,
             sizeof(Graphics::VertexTypes::Position),
-            (void*)offsetof(Graphics::VertexTypes::Position, Graphics::VertexTypes::Position::Position)
+            (void*)offsetof(Graphics::VertexTypes::Position, Position)
         );
     }
 
