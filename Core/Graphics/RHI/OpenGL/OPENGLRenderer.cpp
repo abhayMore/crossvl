@@ -190,7 +190,7 @@ namespace CGL::Graphics
 			return vb;
 	}
 
-	IndexBuffer Renderer::CreateIndexBuffer_OPENGL( const BufferSource& source)
+	IndexBuffer Renderer::CreateIndexBuffer_OPENGL(const BufferSource& source)
 	{
 			assert(source.Type == BufferType::Index);
 			assert(GetImpl());
@@ -218,16 +218,16 @@ namespace CGL::Graphics
 			glBindBufferBase(GL_UNIFORM_BUFFER, 0, outBuffer);
 	}
 
-	void Renderer::SetConstantBufferData_OPENGL(const GLuint* buffer, const void* data, size_t size)
+	void Renderer::SetConstantBufferData_OPENGL(const GLuint& buffer, const void* data, size_t size)
 	{
 			assert(buffer);
-			glBindBuffer(GL_UNIFORM_BUFFER, *buffer);
-
+			glBindBuffer(GL_UNIFORM_BUFFER, buffer);
+			
 			glBufferSubData(GL_UNIFORM_BUFFER, 0, size, data);
 			glBindBuffer(GL_UNIFORM_BUFFER, 0);
 	}
 
-	void Renderer::SetConstantBuffer_OPENGL([[maybe_unused]] ShaderType type, [[maybe_unused]] u32 startSlot, const GLuint& buffer)
+	void Renderer::SetConstantBuffer_OPENGL([[maybe_unused]] ShaderType type, [[maybe_unused]] u32 startSlot, [[maybe_unused]] const GLuint& buffer)
 	{
 			assert(buffer);
 	}

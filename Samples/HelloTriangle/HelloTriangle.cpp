@@ -96,7 +96,7 @@ namespace CGL
 		return true;
 	}
 
-	void HelloTriangle::OnUpdate([[maybe_unused]] const SDL_Event& e)
+	void HelloTriangle::OnUpdate([[maybe_unused]] const SDL_Event& e, [[maybe_unused]] f32 deltaTime)
 	{
 	}
 
