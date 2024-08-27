@@ -50,8 +50,8 @@ namespace CGL::Graphics
 
     void Renderer::BeginFrame_OPENGL()
     {
-			//glClearDepth(1.0);
-			//glClearColor(m_clearColor[0], m_clearColor[1], m_clearColor[2], m_clearColor[3]);
+			glClearDepth(1.0);
+			glClearColor(m_clearColor[0], m_clearColor[1], m_clearColor[2], m_clearColor[3]);
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     }
     
@@ -93,7 +93,7 @@ namespace CGL::Graphics
 			glBindVertexArray(buffer.VAO);
 	}
 
-	void Renderer::SetIndexBuffer_OPENGL([[maybe_unused]] const IndexBuffer& buffer)
+	void Renderer::SetIndexBuffer_OPENGL( const IndexBuffer& buffer)
 	{
 			assert(GetImpl());
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffer.EBO);
@@ -229,6 +229,9 @@ namespace CGL::Graphics
 
 	void Renderer::SetConstantBuffer_OPENGL([[maybe_unused]] ShaderType type, [[maybe_unused]] u32 startSlot, [[maybe_unused]] const GLuint& buffer)
 	{
+			// This function is currently empty because uniform buffer binding is managed directly
+			// by the shader's 'binding' layout qualifier. If runtime shader switching or dynamic
+			// buffer management is needed, this function will handle the necessary binding logic.
 			assert(buffer);
 	}
 
@@ -238,11 +241,10 @@ namespace CGL::Graphics
 			glDrawArrays(GetImpl()->GetPrimitive(), startVertex, vertexCount);
 	}
 
-	void Renderer::DrawIndexed_OPENGL([[maybe_unused]] u32 indexCount, [[maybe_unused]] u32 startIndex, [[maybe_unused]] u32 baseVertex)
+	void Renderer::DrawIndexed_OPENGL(u32 indexCount, u32 startIndex, u32 baseVertex)
 	{
 			assert(GetImpl());
 			glDrawElementsBaseVertex(GetImpl()->GetPrimitive(), indexCount, GL_UNSIGNED_INT, (void*)(startIndex * sizeof(GLuint)), baseVertex);
-			glBindVertexArray(0);
 	}
 
 #endif // CGL_RHI_OPENGL
