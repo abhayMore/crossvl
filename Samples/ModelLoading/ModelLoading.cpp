@@ -105,7 +105,7 @@ namespace CGL
 			vbs.TypeSize          = sizeof(decltype(vb)::value_type);
 			vbs.Count             = u32(vb.size());
 			vbs.VertexType = typeid(decltype(vb)::value_type);
-			meshData.VertexBuffer = GetRenderer()->CreateVertexBuffer(vbs);
+			meshData.VBuffer = GetRenderer()->CreateVertexBuffer(vbs);
 
 			// Create index buffer
 			Graphics::BufferSource ibs;			
@@ -113,7 +113,7 @@ namespace CGL
 			ibs.Type             = Graphics::BufferType::Index;
 			ibs.TypeSize         = sizeof(u32);
 			ibs.Count            = u32(indices.size());
-			meshData.IndexBuffer = GetRenderer()->CreateIndexBuffer(ibs);
+			meshData.IBuffer = GetRenderer()->CreateIndexBuffer(ibs);
 		}
 
 		// Create constant buffer
@@ -155,10 +155,10 @@ namespace CGL
 		for (auto& subMesh : m_mesh.SubMeshes)
 		{
 			auto& meshData = subMesh.GetMeshData();
-			GetRenderer()->SetVertexBuffer(meshData.VertexBuffer);
-			GetRenderer()->SetIndexBuffer(meshData.IndexBuffer);
+			GetRenderer()->SetVertexBuffer(meshData.VBuffer);
+			GetRenderer()->SetIndexBuffer(meshData.IBuffer);
 
-			GetRenderer()->DrawIndexed(meshData.IndexBuffer.IndicesCount);
+			GetRenderer()->DrawIndexed(meshData.IBuffer.IndicesCount);
 		}
 	}
 
