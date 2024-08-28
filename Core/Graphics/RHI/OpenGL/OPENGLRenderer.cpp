@@ -197,6 +197,7 @@ namespace CGL::Graphics
 			{
 				OPENGLEnableVertexAttributes<VertexTypes::PositionNormalTexture>();
 			}
+
 			glBindVertexArray(0);       
 
 			return vb;
